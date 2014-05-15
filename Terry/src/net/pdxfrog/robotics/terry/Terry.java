@@ -171,7 +171,7 @@ public class Terry extends SimpleRobot {
             
             if(at3Left.getTrigger()){
                 shooterLeft.set(1);
-                shooterRight.set(1);
+                shooterRight.set(-1);
             } else {
                 shooterLeft.set(0);
                 shooterRight.set(0);
