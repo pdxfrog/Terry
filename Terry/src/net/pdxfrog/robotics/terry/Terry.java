@@ -80,6 +80,12 @@ public class Terry extends SimpleRobot {
 
     //Disable Stuff
     boolean enableMotors;
+    
+    
+    
+    // Shooter Objects
+    Victor shooterLeft, shooterRight;
+    
 
     /**
      * This function is called once each time the robot turns on.
@@ -91,6 +97,10 @@ public class Terry extends SimpleRobot {
         tankRightRear = new Victor(1, 4);
         tankDrive = new CustomDrive(this, tankLeftFront, tankLeftRear, tankRightFront, tankRightRear);
 
+        
+        // Set up Shooter controls
+        shooterLeft = new Victor(1,5);
+        shooterRight = new Victor(1,6);
     }
 
     /**
@@ -138,6 +148,8 @@ public class Terry extends SimpleRobot {
         tankDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, invertLeft);
         tankDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, invertRight);
         tankDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, invertLeft);
+        
+        
 
         while (isOperatorControl()) {
             getWatchdog().feed();
@@ -156,6 +168,15 @@ public class Terry extends SimpleRobot {
             //The following code takes a forward and a rotational vector, and
             // combines them into a left and right speed vector for the motors.
             tankDrive.triAxisArcade(speedY, speedTwist, enableMotors);
+            
+            if(at3Left.getTrigger()){
+                shooterLeft.set(1);
+                shooterRight.set(1);
+            } else {
+                shooterLeft.set(0);
+                shooterRight.set(0);
+            }
+            
         }
     }
 
@@ -236,6 +257,8 @@ public class Terry extends SimpleRobot {
         return returnValue;
 
     }
+    
+    
 
 }
 
