@@ -4,9 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package net.pdxfrog.robotics.terry;
-
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Gyro;
@@ -25,6 +23,7 @@ import edu.wpi.first.wpilibj.Victor;
  * directory.
  */
 public class Terry extends SimpleRobot {
+
     /**
      * These variables and objects are initialized at the beginning of the class
      * so that all methods have access to them.
@@ -80,12 +79,9 @@ public class Terry extends SimpleRobot {
 
     //Disable Stuff
     boolean enableMotors;
-    
-    
-    
+
     // Shooter Objects
     Victor shooterLeft, shooterRight;
-    
 
     /**
      * This function is called once each time the robot turns on.
@@ -97,10 +93,9 @@ public class Terry extends SimpleRobot {
         tankRightRear = new Victor(1, 4);
         tankDrive = new CustomDrive(this, tankLeftFront, tankLeftRear, tankRightFront, tankRightRear);
 
-        
         // Set up Shooter controls
-        shooterLeft = new Victor(1,5);
-        shooterRight = new Victor(1,6);
+        shooterLeft = new Victor(1, 5);
+        shooterRight = new Victor(1, 6);
     }
 
     /**
@@ -148,8 +143,6 @@ public class Terry extends SimpleRobot {
         tankDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, invertLeft);
         tankDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, invertRight);
         tankDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, invertLeft);
-        
-        
 
         while (isOperatorControl()) {
             getWatchdog().feed();
@@ -168,29 +161,40 @@ public class Terry extends SimpleRobot {
             //The following code takes a forward and a rotational vector, and
             // combines them into a left and right speed vector for the motors.
             tankDrive.triAxisArcade(speedY, speedTwist, enableMotors);
-            
-            if(at3Left.getTrigger()){
-                shooterLeft.set(1);
-                shooterRight.set(-1);
+
+            if (at3Left.getTrigger()) {
+                if (at3Left.getX() <= .75) {
+                    shooterLeft.set(.5);
+                    shooterRight.set(-1);
+                } else {
+                    if (at3Left.getX() >= -.75) {
+                        shooterLeft.set(1);
+                        shooterRight.set(-.5);
+                    } else {
+                        if (Math.abs(at3Left.getX()) < .75) {
+
+                            shooterLeft.set(1);
+                            shooterRight.set(-1);
+                        }
+
+                    }
+                }
             } else {
                 shooterLeft.set(0);
                 shooterRight.set(0);
             }
-            
+
         }
     }
 
-          /**
+    /**
      * This function is called once each time the robot enters test mode.
      */
     public void test() {
 
     }
 
-    
-    
-    
-/**
+    /**
      * Thanks to Colby Skeggs for effectively creating this subclass of
      * RobotDrive for us while queing at a competition
      */
@@ -204,7 +208,6 @@ public class Terry extends SimpleRobot {
             this.main = main;
         }
 
-   
         public void triAxisArcade(double speedValue, double rotateValue, boolean enable) {
 
             double speedLeft;
@@ -257,8 +260,5 @@ public class Terry extends SimpleRobot {
         return returnValue;
 
     }
-    
-    
 
 }
-
