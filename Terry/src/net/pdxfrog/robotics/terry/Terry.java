@@ -163,23 +163,18 @@ public class Terry extends SimpleRobot {
             tankDrive.triAxisArcade(speedY, speedTwist, enableMotors);
 
             if (at3Left.getTrigger()) {
-                if (at3Left.getX() <= .75) {
-                    shooterLeft.set(.5);
+                if (at3Left.getRawButton(3)) {
+                    shooterLeft.set(1);
                     shooterRight.set(-1);
                 } else {
-                    if (at3Left.getX() >= -.75) {
-                        shooterLeft.set(1);
-                        shooterRight.set(-.5);
-                    } else {
-                        if (Math.abs(at3Left.getX()) < .75) {
+                    if (at3Left.getRawButton(2)) {
+                        shooterLeft.set(-1);
+                        shooterRight.set(1);
+                    } 
 
-                            shooterLeft.set(1);
-                            shooterRight.set(-1);
-                        }
-
-                    }
+                  }   
                 }
-            } else {
+             else {
                 shooterLeft.set(0);
                 shooterRight.set(0);
             }
